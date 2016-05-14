@@ -49,20 +49,25 @@ function draw() {
             player.position.y += 2;
         }
         
-        for (var i=0;i<8;i++) {
+        var toRemove = [];
+        for (var i=0;i<sconces.length;i++) {
             if (sconces[i].overlap(player)) {
                 if (i == 0 || i ==1) {
                     sconces[i].addImage(litSconceImage);
                     sconces_found ++;
-                }
+                    toRemove.push(i);
+                    }
                 else {
+                    removeSprite(sconces[i]);
                     spawn_enemy(sconces[i].position.x, sconces[i].position.y)
                     isInvincible = true
                     setTimeout(notInvincible, 750)
                 }
-                removeSprite(sconces[i]);
             }
         }
+        toRemove.forEach(function (i) {
+            sconces.splice(i,1)
+        })
         
         for (var i=0;i<enemies.length;i++) {
             enemies[i].position.x += random(-3,3);
